@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hello WebComponents</title>
+  </head>
+  <body>
+    <hello-world></hello-world>
+    <script>
+      class HelloWorld extends HTMLElement {
+        constructor() {
+          super();
+          this.innerHTML = '<p>Hello World!</p>';
+        }
+      }
+      window.customElements.define('hello-world', HelloWorld);
+    </script>
+  </body>
+</html>
