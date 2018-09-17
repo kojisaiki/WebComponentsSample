@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible"
+        content="IE=edge">
+  <title>Shadow DOM</title>
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+  <style>
+    p {
+      color: blue;
+    }
+  </style>
+</head>
+
+<body>
+  <template id="template-test">
+    <style>
+      :host {
+        background-color: #ccc;
+      }
+
+      /* トップレベル指定のblueのほうが強い. */
+      ::slotted(p) {
+        border: 1px solid #333;
+        color: red;
+      }
+    </style>
+    <slot></slot>
+  </template>
+
+  <p>I am BLUE!</p>
+  <red-text>
+    Top level slot.
+    <p>I am RED!</p>
+  </red-text>
+
+  <script>
+    class RedText extends HTMLElement {
+      constructor() {
+        super();
+
+        const shadowRoot = this.attachShadow({
+          mode: 'open'
+        });
+        const template = document.getElementById('template-test').content;
+        shadowRoot.appendChild(template.cloneNode(true));
+      }
+    }
+    window.customElements.define('red-text', RedText);
+  </script>
+</body>
+
+</html>
