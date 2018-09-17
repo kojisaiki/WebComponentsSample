@@ -1,0 +1,30 @@
+<template id="template-test">
+  <style>
+    :host {
+      background-color: #ccc;
+    }
+
+    /* トップレベル指定のblueのほうが強い. */
+    ::slotted(p) {
+      border: 1px solid #333;
+      color: red;
+    }
+  </style>
+  <slot></slot>
+</template>
+
+<script>
+  class RedText extends HTMLElement {
+    constructor() {
+      super();
+
+      const shadowRoot = this.attachShadow({
+        mode: 'open'
+      });
+      const doc = document.currentScript.ownerDocument;
+      const template = doc.getElementById('template-test').content;
+      shadowRoot.appendChild(template.cloneNode(true));
+    }
+  }
+  window.customElements.define('red-text', RedText);
+</script>
